@@ -1,0 +1,108 @@
+<% layout("layout") %>
+
+<link rel="stylesheet" href="/css/main.css"/>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/chat.js"></script>
+
+
+<!--<script>-->
+    <!--var socket = io.connect('http://localhost:3000');-->
+    <!--socket.on('connect', function(data) {-->
+        <!--socket.emit('join', 'Hello World from client');-->
+    <!--});-->
+<!--</script>-->
+
+
+<script>
+    var userid = '<%= user.facebook.id %>';
+</script>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-9" style="margin-top: 10px">
+            <canvas id="c"></canvas>
+        </div>
+        <!-- admintchat-->
+        <div class="col-lg-3" style="margin-top: 10px">
+            <!-- DIRECT CHAT -->
+            <div class="box box-warning direct-chat direct-chat-warning">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Chat</h3>
+
+                    <div class="box-tools pull-right">
+                        <span data-toggle="tooltip" title="3 New Messages" class="badge bg-yellow">3</span>
+                    </div>
+
+                    <div id="users">
+                        <div>userler</div>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <!-- Conversations are loaded here -->
+                    <div class="direct-chat-messages">
+                        <!-- Message. Default to the left -->
+
+                        <!-- /.direct-chat-msg -->
+
+                    </div>
+                    <!--/.direct-chat-messages-->
+
+                    <!-- Contacts are loaded here -->
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <div class="input-group">
+                        <input type="text" name="message" id="chatmessage" placeholder="Type Message ..." class="form-control">
+                          <span class="input-group-btn">
+                            <button type="button" id="chatmessagesend" class="btn btn-warning btn-flat">Send</button>
+                          </span>
+                    </div>
+                </div>
+                <!-- /.box-footer-->
+            </div>
+            <!--/.direct-chat -->
+        </div>
+        <!-- admintchat-->
+
+        <div class="col-lg-3">
+            <div class="chat_panel">
+                <div class="messageplane">
+                    <!--<div class="messageappend">salam</div>-->
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- /.row -->
+</div>
+
+
+<!--<script src="/js/newdraw.js"></script>-->
+<script src="/js/main.js"></script>
+<!--<script src="/js/radius.js"></script>-->
+<!--<script src="/js/colors.js"></script>-->
+
+<script>
+    socket.on('draw_shape', function (data) {
+        if (data.draw == true) {
+            if (data.color !== '') {
+                context.fillStyle = data.color;
+                context.strokeStyle = data.color;
+                console.log('deyishiklik: ' + data.color);
+            }
+            context.lineWidth = data.radius * 2;
+//        context.lineTo(data.x, data.y);
+//        context.stroke();
+            context.beginPath();
+            context.arc(data.x, data.y, data.radius, 0, Math.PI + 2);
+            context.fill();
+            context.beginPath();
+            context.moveTo(data.x, data.y);
+        }
+
+    });
+</script>
+
+
